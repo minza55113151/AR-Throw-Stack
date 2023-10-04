@@ -7,9 +7,22 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
 
+    [SerializeField]
+    private string gameplaySceneName;
+
+    [SerializeField]
+    private string mainMenuSceneName;
+
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         Application.targetFrameRate = 60;
     }
 
@@ -18,13 +31,25 @@ public class GameController : MonoBehaviour
         
     }
 
-    private void SpawnStack()
+    public void GoPlayGame()
     {
+        SceneManager.LoadScene(gameplaySceneName);
+    }
 
+    public void GoMainmenu()
+    {
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void GameOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //reload
+        
+        //SceneManager.LoadScene(gameplaySceneName);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

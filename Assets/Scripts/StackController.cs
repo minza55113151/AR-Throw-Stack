@@ -33,6 +33,9 @@ public class StackController : MonoBehaviour
 
     public void CollisionEnter(GameObject plateGameObject, GameObject collisionGameObject)
     {
+        // check is in mainmenu
+        if (UIMainMenuController.Instance != null) return;
+
         var plateRB = plateGameObject.GetComponent<Rigidbody>();
         if (plateRB.isKinematic) return;
 
@@ -72,6 +75,7 @@ public class StackController : MonoBehaviour
             //Debug.DrawRay(new Vector3(topStackPlate.transform.position.x, topStackPlate.transform.position.y, bottomTopPlatePos), Vector3.up * 0.1f, Color.red, 2);
 
             var slicedPlateContainer = new GameObject("SlicedPlateContainer");
+            //slicedPlateContainer.AddComponent<Rigidbody>();
 
             var leftBoundNewPlate = leftPlatePos;
             var rightBoundNewPlate = rightPlatePos;
