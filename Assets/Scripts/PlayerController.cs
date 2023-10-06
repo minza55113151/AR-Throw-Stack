@@ -16,14 +16,11 @@ public class PlayerController : MonoBehaviour
     private float force;
 
     [SerializeField]
-    private Transform stackTransform;
-
-    [SerializeField]
     private Transform plateContainerTransform;
 
     private GameObject inHandPlate;
 
-    public float DistanceToStack => Vector3.Distance(new Vector2(cam.transform.position.x, cam.transform.position.z), new Vector2(stackTransform.position.x, stackTransform.position.z));
+    public float DistanceToStack => Vector3.Distance(new Vector2(cam.transform.position.x, cam.transform.position.z), new Vector2(StackController.Instance.transform.position.x, StackController.Instance.transform.position.z));
 
     public float Force => force;
 
