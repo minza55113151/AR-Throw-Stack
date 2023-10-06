@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private string mainMenuSceneName;
+
+    public event Action OnGameOver;
 
     private void Awake()
     {
@@ -43,8 +46,7 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        //reload
-        
+        OnGameOver?.Invoke();
         //SceneManager.LoadScene(gameplaySceneName);
     }
 

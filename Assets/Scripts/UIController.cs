@@ -12,7 +12,10 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI forceText;
- 
+
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+
     private void Awake()
     {
         Instance = this;
@@ -22,6 +25,7 @@ public class UIController : MonoBehaviour
     {
         UpdateDistanceText();
         UpdateForceText();
+        UpdateScoreText();
     }
 
     private void UpdateDistanceText()
@@ -31,5 +35,9 @@ public class UIController : MonoBehaviour
     private void UpdateForceText()
     {
         forceText.text = $"Force: {(int)PlayerController.Instance.Force} N";
+    }
+    private void UpdateScoreText()
+    {
+        scoreText.text = $"Score: {StackController.Instance.Score}";
     }
 }

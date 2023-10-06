@@ -10,13 +10,16 @@ public class PlayerController : MonoBehaviour
     private GameObject platePrefab;
 
     [SerializeField]
-    private float angle = 0;
+    private float angle;
 
     [SerializeField]
-    private float force = 1000;
+    private float force;
 
     [SerializeField]
     private Transform stackTransform;
+
+    [SerializeField]
+    private Transform plateContainerTransform;
 
     private GameObject inHandPlate;
 
@@ -33,7 +36,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        CreatePlateInHand();
+        CreatePlateInHand(platePrefab);
+        GameController.Instance.OnGameOver += OnGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameController.Instance.OnGameOver -= OnGameOver;
     }
 
     private void Update()
@@ -49,12 +58,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CreatePlateInHand()
+    public void CreatePlateInHand(GameObject platePrefab)
     {
-        // TODO: Use TopStackPlate as prefab
         inHandPlate = Instantiate(platePrefab, cam.transform.position + cam.transform.forward * 0.5f, Quaternion.identity, transform);
         var plateRB = inHandPlate.GetComponent<Rigidbody>();
         plateRB.isKinematic = true;
+
+        var plateCollider = inHandPlate.GetComponent<Collider>();
+        plateCollider.isTrigger = true;
 
         // random color
         var material = inHandPlate.GetComponent<MeshRenderer>().material;
@@ -71,13 +82,24 @@ public class PlayerController : MonoBehaviour
         direction = Quaternion.AngleAxis(-angle, rotateAxis) * direction;
         direction.Normalize();
         
-        // Add forcec
+        // Add force
         var plateRB = inHandPlate.GetComponent<Rigidbody>();
         plateRB.isKinematic = false;
         plateRB.AddForce(direction * force);
 
+        var plateCollider = inHandPlate.GetComponent<Collider>();
+        plateCollider.isTrigger = false;
+
+        inHandPlate.transform.SetParent(plateContainerTransform);
         inHandPlate = null;
-        // TODO: wait for collision with top stack plate
-        Invoke("CreatePlateInHand", 1f);
+    }
+
+    private void OnGameOver()
+    {
+        foreach(Transform child in plateContainerTransform)
+        {
+            Destroy(child.gameObject);
+        }
+        CreatePlateInHand(platePrefab);
     }
 }
