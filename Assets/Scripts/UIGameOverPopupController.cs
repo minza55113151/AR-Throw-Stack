@@ -56,7 +56,7 @@ public class UIGameOverPopupController : MonoBehaviour
     public void Open()
     {
         yourScoreText.text = $"Your score: {StackController.Instance.Score}";
-        highScoreText.text = $"High score: {PlayerPrefs.GetInt(PlayerPrefsKeys.HighScore)}";
+        highScoreText.text = $"High score: {PlayerPrefs.GetInt(PlayerPrefsKeys.highScore)}";
 
         gameOverPopupContainer.SetActive(true);
     }

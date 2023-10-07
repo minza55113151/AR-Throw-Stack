@@ -14,10 +14,10 @@ public class ScoreController : MonoBehaviour
     public void UpdateScore()
     {
         var score = StackController.Instance.Score;
-        var highScore = PlayerPrefs.GetInt(PlayerPrefsKeys.HighScore, 0);
+        var highScore = PlayerPrefs.GetInt(PlayerPrefsKeys.highScore, 0);
         if (score > highScore)
         {
-            PlayerPrefs.SetInt(PlayerPrefsKeys.HighScore, score);
+            PlayerPrefs.SetInt(PlayerPrefsKeys.highScore, score);
         }
     }
 }
