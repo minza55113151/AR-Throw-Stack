@@ -74,10 +74,11 @@ public class StackController : MonoBehaviour
         {
             OnPlateHitTopStack(plateGameObject);
             PlayerController.Instance.CreatePlateInHand(topStackPlate);
+            ScoreController.Instance.UpdateScore();
         }
         else
         {
-            GameController.Instance.RestartGame();
+            GameController.Instance.GameOver();
         }
     }
 

@@ -20,12 +20,12 @@ public class PlateController : MonoBehaviour
 
     private void Start()
     {
-        GameController.Instance.OnRestartGame += OnGameOver;
+        GameController.Instance.OnRestartGame += OnRestartGame;
     }
 
     private void OnDestroy()
     {
-        GameController.Instance.OnRestartGame -= OnGameOver;
+        GameController.Instance.OnRestartGame -= OnRestartGame;
     }
 
     private void Update()
@@ -52,7 +52,7 @@ public class PlateController : MonoBehaviour
         performCollisionsCoroutine = null;
     }
 
-    private void OnGameOver()
+    private void OnRestartGame()
     {
         collisions = new List<Collision>();
         if (performCollisionsCoroutine != null)

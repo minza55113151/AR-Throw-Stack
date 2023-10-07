@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         CreatePlateInHand(platePrefab);
-        GameController.Instance.OnRestartGame += OnGameOver;
+        GameController.Instance.OnRestartGame += OnRestartGame;
 
         playerClickButton.onClick.AddListener(ThrowStack);
     }
 
     private void OnDestroy()
     {
-        GameController.Instance.OnRestartGame -= OnGameOver;
+        GameController.Instance.OnRestartGame -= OnRestartGame;
 
         playerClickButton.onClick.RemoveListener(ThrowStack);
     }
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         inHandPlate = null;
     }
 
-    private void OnGameOver()
+    private void OnRestartGame()
     {
         foreach(Transform child in plateContainerTransform)
         {

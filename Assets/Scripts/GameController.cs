@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 
 public class GameController : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     public void GoPlayGame()
@@ -41,12 +40,19 @@ public class GameController : MonoBehaviour
 
     public void GoMainmenu()
     {
+        LoaderUtility.Deinitialize();
+        LoaderUtility.Initialize();
         SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    public void GameOver()
+    {
+        UIGameOverPopupController.Instance.Open();
     }
 
     public void RestartGame()
     {
-        OnRestartGame?.Invoke();
+        OnRestartGame?.Invoke(); 
     }
 
     public void ExitGame()
