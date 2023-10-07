@@ -3066,6 +3066,7 @@ MonoBehaviour:
   angle: 0
   force: 0
   plateContainerTransform: {fileID: 836612612}
+  playerClickButton: {fileID: 796850453}
 --- !u!4 &1465470579
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform plateContainerTransform;
 
+    [SerializeField]
+    private Button playerClickButton;
+
     private GameObject inHandPlate;
 
     public float DistanceToStack => Vector3.Distance(new Vector2(cam.transform.position.x, cam.transform.position.z), new Vector2(StackController.Instance.transform.position.x, StackController.Instance.transform.position.z));
@@ -35,20 +39,19 @@ public class PlayerController : MonoBehaviour
     {
         CreatePlateInHand(platePrefab);
         GameController.Instance.OnGameOver += OnGameOver;
+
+        playerClickButton.onClick.AddListener(ThrowStack);
     }
 
     private void OnDestroy()
     {
         GameController.Instance.OnGameOver -= OnGameOver;
+
+        playerClickButton.onClick.RemoveListener(ThrowStack);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ThrowStack();
-        }
-
         if (inHandPlate)
         {
             inHandPlate.transform.position = cam.transform.position + cam.transform.forward * 0.5f;
