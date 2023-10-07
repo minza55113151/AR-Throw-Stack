@@ -32,12 +32,12 @@ public class StackController : MonoBehaviour
     private void Start()
     {
         stack = new List<GameObject>();
-        GameController.Instance.OnGameOver += OnGameOver;
+        GameController.Instance.OnRestartGame += OnGameOver;
     }
 
     private void OnDestroy()
     {
-        GameController.Instance.OnGameOver -= OnGameOver;
+        GameController.Instance.OnRestartGame -= OnGameOver;
     }
 
     private void Update()
@@ -77,7 +77,7 @@ public class StackController : MonoBehaviour
         }
         else
         {
-            GameController.Instance.GameOver();
+            GameController.Instance.RestartGame();
         }
     }
 

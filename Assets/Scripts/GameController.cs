@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private string mainMenuSceneName;
 
-    public event Action OnGameOver;
+    public event Action OnRestartGame;
 
     private void Awake()
     {
@@ -44,10 +44,9 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
-    public void GameOver()
+    public void RestartGame()
     {
-        OnGameOver?.Invoke();
-        //SceneManager.LoadScene(gameplaySceneName);
+        OnRestartGame?.Invoke();
     }
 
     public void ExitGame()

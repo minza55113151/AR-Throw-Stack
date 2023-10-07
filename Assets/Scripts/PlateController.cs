@@ -20,12 +20,12 @@ public class PlateController : MonoBehaviour
 
     private void Start()
     {
-        GameController.Instance.OnGameOver += OnGameOver;
+        GameController.Instance.OnRestartGame += OnGameOver;
     }
 
     private void OnDestroy()
     {
-        GameController.Instance.OnGameOver -= OnGameOver;
+        GameController.Instance.OnRestartGame -= OnGameOver;
     }
 
     private void Update()

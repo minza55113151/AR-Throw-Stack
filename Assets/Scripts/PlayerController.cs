@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         CreatePlateInHand(platePrefab);
-        GameController.Instance.OnGameOver += OnGameOver;
+        GameController.Instance.OnRestartGame += OnGameOver;
 
         playerClickButton.onClick.AddListener(ThrowStack);
     }
 
     private void OnDestroy()
     {
-        GameController.Instance.OnGameOver -= OnGameOver;
+        GameController.Instance.OnRestartGame -= OnGameOver;
 
         playerClickButton.onClick.RemoveListener(ThrowStack);
     }

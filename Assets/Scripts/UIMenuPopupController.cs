@@ -29,7 +29,7 @@ public class UIMenuPopupController : MonoBehaviour
         openMenuButton.onClick.AddListener(Open);
         bgButton.onClick.AddListener(Close);
         mainMenuButton.onClick.AddListener(GameController.Instance.GoMainmenu);
-        restartButton.onClick.AddListener(GameController.Instance.GoPlayGame);
+        restartButton.onClick.AddListener(GameController.Instance.RestartGame);
         playButton.onClick.AddListener(Close);
 
         Close();
@@ -40,7 +40,7 @@ public class UIMenuPopupController : MonoBehaviour
         openMenuButton.onClick.RemoveListener(Open);
         bgButton.onClick.RemoveListener(Close);
         mainMenuButton.onClick.RemoveListener(GameController.Instance.GoMainmenu);
-        restartButton.onClick.RemoveListener(GameController.Instance.GoPlayGame);
+        restartButton.onClick.RemoveListener(GameController.Instance.RestartGame);
         playButton.onClick.RemoveListener(Close);
     }
 
