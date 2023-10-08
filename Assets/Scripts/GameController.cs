@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
 
     public event Action OnRestartGame;
 
+    public bool isInMainMenu => SceneManager.GetActiveScene().name == mainMenuSceneName;
+
     private void Awake()
     {
         if (Instance != null)

@@ -54,10 +54,7 @@ public class StackController : MonoBehaviour
 
     public void CollisionEnter(GameObject plateGameObject, List<Collision> collisions)
     {
-        //Debug.Log(collisionGameObject.name);
-
-        // check is in mainmenu
-        if (UIMainMenuController.Instance != null) return;
+        if (GameController.Instance.isInMainMenu) return;
 
 
         GameObject collisionGameObject = null;

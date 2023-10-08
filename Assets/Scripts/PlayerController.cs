@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Slider angleSlider;
 
-    public float Angle => angleSlider.value;
+    public float Angle => angleSlider ? angleSlider.value : 0;
 
     public GameObject PlatePrefab => platePrefab;
 

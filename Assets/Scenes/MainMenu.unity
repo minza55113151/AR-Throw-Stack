@@ -497,6 +497,8 @@ MonoBehaviour:
   topStackPlate: {fileID: 2027713307}
   stackContainerTransform: {fileID: 291177264}
   slicedPlateContainerTransform: {fileID: 1837884557}
+  autoCompleteVelocity: 1
+  autoCompletePercentage: 100
 --- !u!4 &197753108
 Transform:
   m_ObjectHideFlags: 0
@@ -1486,6 +1488,7 @@ MonoBehaviour:
   distanceText: {fileID: 0}
   forceText: {fileID: 0}
   scoreText: {fileID: 0}
+  angleText: {fileID: 0}
 --- !u!4 &731576006
 Transform:
   m_ObjectHideFlags: 0
@@ -2092,6 +2095,7 @@ GameObject:
   - component: {fileID: 1011907122}
   - component: {fileID: 1011907121}
   - component: {fileID: 1011907120}
+  - component: {fileID: 1011907123}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2173,6 +2177,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!114 &1011907123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011907119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121d46997465c9b4a8bb04c2c59c5466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!1 &1025741823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3046,13 +3063,11 @@ MonoBehaviour:
   cam: {fileID: 1011907121}
   platePrefab: {fileID: 466892793746604336, guid: bd7666a95dbbaf84ebd01d37f87051ac,
     type: 3}
-  angle: 40
-  force: 100
+  initForce: 100
+  forceGrowByStack: 10
   plateContainerTransform: {fileID: 104129861}
   playerClickButton: {fileID: 1966926075}
-  lineRenderer: {fileID: 0}
-  lineSegments: 60
-  timeOfFlight: 5
+  angleSlider: {fileID: 0}
 --- !u!4 &1465470579
 Transform:
   m_ObjectHideFlags: 0
