@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class StackController : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class StackController : MonoBehaviour
 
     [SerializeField]
     private Transform slicedPlateContainerTransform;
+
+    [SerializeField]
+    private float autoCompleteVelocity= 1f;
+
+    [SerializeField]
+    private float autoCompletePercentage = 100f;
+
+    public float AutoCompleteVelocity => autoCompleteVelocity;
 
     public GameObject TopStackPlate => topStackPlate;
 
@@ -111,69 +120,80 @@ public class StackController : MonoBehaviour
         //Debug.DrawRay(new Vector3(topStackPlate.transform.position.x, topStackPlate.transform.position.y, topTopPlatePos), Vector3.up * 0.1f, Color.red, 2);
         //Debug.DrawRay(new Vector3(topStackPlate.transform.position.x, topStackPlate.transform.position.y, bottomTopPlatePos), Vector3.up * 0.1f, Color.red, 2);
 
-        var slicedPlateContainer = new GameObject("SlicedPlateContainer");
-        slicedPlateContainer.transform.SetParent(slicedPlateContainerTransform);
-        //slicedPlateContainer.AddComponent<Rigidbody>();
-
-        var leftBoundNewPlate = leftPlatePos;
-        var rightBoundNewPlate = rightPlatePos;
-        var topBoundNewPlate = topPlatePos;
-        var bottomBoundNewPlate = bottomPlatePos;
-
-        if (leftOverflow > 0)
+        var overflowArea = (leftOverflow+rightOverflow) * (topOverflow+bottomOverflow);
+        var plateArea = plateGameObject.transform.localScale.x * plateGameObject.transform.localScale.z;
+        var remainAreaPercentage = (plateArea - overflowArea) / plateArea * 100;
+        var isAutoComplete = remainAreaPercentage >= autoCompletePercentage;
+        if (!isAutoComplete)
         {
-            var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
-            slicedPlate.transform.position = new Vector3(leftTopPlatePos - leftOverflow / 2, plateGameObject.transform.position.y, plateGameObject.transform.position.z);
-            slicedPlate.transform.localScale = new Vector3(leftOverflow, plateGameObject.transform.localScale.y, plateGameObject.transform.localScale.z);
+            var slicedPlateContainer = new GameObject("SlicedPlateContainer");
+            slicedPlateContainer.transform.SetParent(slicedPlateContainerTransform);
+            //slicedPlateContainer.AddComponent<Rigidbody>();
 
-            leftBoundNewPlate = leftTopPlatePos;
+            var leftBoundNewPlate = leftPlatePos;
+            var rightBoundNewPlate = rightPlatePos;
+            var topBoundNewPlate = topPlatePos;
+            var bottomBoundNewPlate = bottomPlatePos;
+
+            if (leftOverflow > 0)
+            {
+                var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
+                slicedPlate.transform.position = new Vector3(leftTopPlatePos - leftOverflow / 2, plateGameObject.transform.position.y, plateGameObject.transform.position.z);
+                slicedPlate.transform.localScale = new Vector3(leftOverflow, plateGameObject.transform.localScale.y, plateGameObject.transform.localScale.z);
+
+                leftBoundNewPlate = leftTopPlatePos;
+            }
+            if (rightOverflow > 0)
+            {
+                var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
+                slicedPlate.transform.position = new Vector3(rightTopPlatePos + rightOverflow / 2, plateGameObject.transform.position.y, plateGameObject.transform.position.z);
+                slicedPlate.transform.localScale = new Vector3(rightOverflow, plateGameObject.transform.localScale.y, plateGameObject.transform.localScale.z);
+
+                rightBoundNewPlate = rightTopPlatePos;
+            }
+            if (topOverflow > 0)
+            {
+                var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
+                slicedPlate.transform.position = new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, topTopPlatePos + topOverflow / 2);
+                slicedPlate.transform.localScale = new Vector3(plateGameObject.transform.localScale.x, plateGameObject.transform.localScale.y, topOverflow);
+
+                topBoundNewPlate = topTopPlatePos;
+            }
+            if (bottomOverflow > 0)
+            {
+                var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
+                slicedPlate.transform.position = new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, bottomTopPlatePos - bottomOverflow / 2);
+                slicedPlate.transform.localScale = new Vector3(plateGameObject.transform.localScale.x, plateGameObject.transform.localScale.y, bottomOverflow);
+
+                bottomBoundNewPlate = bottomTopPlatePos;
+            }
+
+            foreach (Transform slicedPlate in slicedPlateContainer.transform)
+            {
+                //var rb = slicedPlate.GetComponent<Rigidbody>();
+                //rb.velocity = plateRB.velocity / 100;
+
+                var collider = slicedPlate.GetComponent<BoxCollider>();
+                collider.isTrigger = true;
+
+                var material = slicedPlate.GetComponent<MeshRenderer>().material;
+                material.color = plateGameObject.GetComponent<MeshRenderer>().material.color;
+
+                slicedPlate.tag = "Untagged";
+            }
+
+            //Debug.DrawRay(new Vector3(leftBoundNewPlate, plateGameObject.transform.position.y, plateGameObject.transform.position.z), Vector3.up * 0.1f, Color.green, 2);
+            //Debug.DrawRay(new Vector3(rightBoundNewPlate, plateGameObject.transform.position.y, plateGameObject.transform.position.z), Vector3.up * 0.1f, Color.green, 2);
+            //Debug.DrawRay(new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, topBoundNewPlate), Vector3.up * 0.1f, Color.green, 2);
+            //Debug.DrawRay(new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, bottomBoundNewPlate), Vector3.up * 0.1f, Color.green, 2);
+
+            plateGameObject.transform.position = new Vector3((leftBoundNewPlate + rightBoundNewPlate) / 2, topStackPlate.transform.position.y + plateGameObject.transform.localScale.y, (topBoundNewPlate + bottomBoundNewPlate) / 2);
+            plateGameObject.transform.localScale = new Vector3(Mathf.Abs(rightBoundNewPlate - leftBoundNewPlate), plateGameObject.transform.localScale.y, Mathf.Abs(topBoundNewPlate - bottomBoundNewPlate));
         }
-        if (rightOverflow > 0)
+        else
         {
-            var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
-            slicedPlate.transform.position = new Vector3(rightTopPlatePos + rightOverflow / 2, plateGameObject.transform.position.y, plateGameObject.transform.position.z);
-            slicedPlate.transform.localScale = new Vector3(rightOverflow, plateGameObject.transform.localScale.y, plateGameObject.transform.localScale.z);
-
-            rightBoundNewPlate = rightTopPlatePos;
+            plateGameObject.transform.position = new Vector3(topStackPlate.transform.position.x, topStackPlate.transform.position.y + plateGameObject.transform.localScale.y, topStackPlate.transform.position.z);
         }
-        if (topOverflow > 0)
-        {
-            var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
-            slicedPlate.transform.position = new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, topTopPlatePos + topOverflow / 2);
-            slicedPlate.transform.localScale = new Vector3(plateGameObject.transform.localScale.x, plateGameObject.transform.localScale.y, topOverflow);
-
-            topBoundNewPlate = topTopPlatePos;
-        }
-        if (bottomOverflow > 0)
-        {
-            var slicedPlate = Instantiate(platePrefab, slicedPlateContainer.transform);
-            slicedPlate.transform.position = new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, bottomTopPlatePos - bottomOverflow / 2);
-            slicedPlate.transform.localScale = new Vector3(plateGameObject.transform.localScale.x, plateGameObject.transform.localScale.y, bottomOverflow);
-
-            bottomBoundNewPlate = bottomTopPlatePos;
-        }
-
-        foreach (Transform slicedPlate in slicedPlateContainer.transform)
-        {
-            //var rb = slicedPlate.GetComponent<Rigidbody>();
-            //rb.velocity = plateRB.velocity / 100;
-
-            var collider = slicedPlate.GetComponent<BoxCollider>();
-            collider.isTrigger = true;
-
-            var material = slicedPlate.GetComponent<MeshRenderer>().material;
-            material.color = plateGameObject.GetComponent<MeshRenderer>().material.color;
-
-            slicedPlate.tag = "Untagged";
-        }
-
-        //Debug.DrawRay(new Vector3(leftBoundNewPlate, plateGameObject.transform.position.y, plateGameObject.transform.position.z), Vector3.up * 0.1f, Color.green, 2);
-        //Debug.DrawRay(new Vector3(rightBoundNewPlate, plateGameObject.transform.position.y, plateGameObject.transform.position.z), Vector3.up * 0.1f, Color.green, 2);
-        //Debug.DrawRay(new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, topBoundNewPlate), Vector3.up * 0.1f, Color.green, 2);
-        //Debug.DrawRay(new Vector3(plateGameObject.transform.position.x, plateGameObject.transform.position.y, bottomBoundNewPlate), Vector3.up * 0.1f, Color.green, 2);
-
-        plateGameObject.transform.position = new Vector3((leftBoundNewPlate + rightBoundNewPlate) / 2, topStackPlate.transform.position.y + plateGameObject.transform.localScale.y, (topBoundNewPlate + bottomBoundNewPlate) / 2);
-        plateGameObject.transform.localScale = new Vector3(Mathf.Abs(rightBoundNewPlate - leftBoundNewPlate), plateGameObject.transform.localScale.y, Mathf.Abs(topBoundNewPlate - bottomBoundNewPlate));
 
         ////pause game by unity
         //Debug.Break();

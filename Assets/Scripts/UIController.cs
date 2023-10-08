@@ -14,6 +14,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI scoreText;
 
+    [SerializeField]
+    private TextMeshProUGUI angleText;
+
     private void Awake()
     {
         Instance = this;
@@ -24,6 +27,7 @@ public class UIController : MonoBehaviour
         UpdateDistanceText();
         UpdateForceText();
         UpdateScoreText();
+        UpdateAngleText();
     }
 
     private void UpdateDistanceText()
@@ -37,5 +41,9 @@ public class UIController : MonoBehaviour
     private void UpdateScoreText()
     {
         scoreText.text = $"Score: {StackController.Instance.Score}";
+    }
+    private void UpdateAngleText()
+    {
+        angleText.text = $"Angle: {PlayerController.Instance.Angle.ToString("F0")} deg";
     }
 }

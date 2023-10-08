@@ -13,6 +13,8 @@ public class PlateController : MonoBehaviour
 
     public Rigidbody RB => rb;
 
+    
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,6 +33,25 @@ public class PlateController : MonoBehaviour
     private void Update()
     {
 
+    }
+
+    private void FixedUpdate()
+    {
+        
+    }
+
+    public void TriggerEnter(Collider other)
+    {
+        var isKinematic = rb.isKinematic;
+        var isTriggerTopPlate = other.gameObject == StackController.Instance.TopStackPlate;
+        if (!isKinematic && isTriggerTopPlate)
+        {
+            var topStackPlateTransform = StackController.Instance.TopStackPlate.transform;
+            var direction = (topStackPlateTransform.position + new Vector3(0, topStackPlateTransform.localScale.y, 0)) - transform.position;
+            var velocity = direction.normalized * StackController.Instance.AutoCompleteVelocity;
+            rb.velocity = velocity;
+            rb.useGravity = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

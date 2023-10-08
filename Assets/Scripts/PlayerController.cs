@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour
     private GameObject platePrefab;
 
     [SerializeField]
-    private float angle;
+    private float initForce;
 
     [SerializeField]
-    private float force;
+    private float forceGrowByStack;
 
     [SerializeField]
     private Transform plateContainerTransform;
@@ -26,7 +26,12 @@ public class PlayerController : MonoBehaviour
 
     public float DistanceToStack => Vector3.Distance(new Vector2(cam.transform.position.x, cam.transform.position.z), new Vector2(StackController.Instance.transform.position.x, StackController.Instance.transform.position.z));
 
-    public float Force => force;
+    public float Force => initForce + forceGrowByStack * StackController.Instance.Score;
+
+    [SerializeField]
+    private Slider angleSlider;
+
+    public float Angle => angleSlider.value;
 
     public GameObject PlatePrefab => platePrefab;
 
@@ -60,7 +65,9 @@ public class PlayerController : MonoBehaviour
 
     public void CreatePlateInHand(GameObject platePrefab)
     {
-        inHandPlate = Instantiate(platePrefab, cam.transform.position + cam.transform.forward * 0.5f, Quaternion.identity, transform);
+        
+        inHandPlate = Instantiate(PlatePrefab, cam.transform.position + cam.transform.forward * 0.5f, Quaternion.identity, transform);
+        inHandPlate.transform.localScale = platePrefab.transform.localScale;
         var plateRB = inHandPlate.GetComponent<Rigidbody>();
         plateRB.isKinematic = true;
 
@@ -79,13 +86,13 @@ public class PlayerController : MonoBehaviour
         // direction
         var direction = cam.transform.forward;
         var rotateAxis = cam.transform.right;
-        direction = Quaternion.AngleAxis(-angle, rotateAxis) * direction;
+        direction = Quaternion.AngleAxis(-Angle, rotateAxis) * direction;
         direction.Normalize();
         
         // Add force
         var plateRB = inHandPlate.GetComponent<Rigidbody>();
         plateRB.isKinematic = false;
-        plateRB.AddForce(direction * force);
+        plateRB.AddForce(direction * Force);
 
         var plateCollider = inHandPlate.GetComponent<Collider>();
         plateCollider.isTrigger = false;
