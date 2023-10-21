@@ -54,9 +54,6 @@ public class StackController : MonoBehaviour
 
     public void CollisionEnter(GameObject plateGameObject, List<Collision> collisions)
     {
-        if (GameController.Instance.isInMainMenu) return;
-
-
         GameObject collisionGameObject = null;
         foreach(Collision collision in collisions)
         {
@@ -78,11 +75,21 @@ public class StackController : MonoBehaviour
         {
             OnPlateHitTopStack(plateGameObject);
             PlayerController.Instance.CreatePlateInHand(topStackPlate);
-            ScoreController.Instance.UpdateScore();
+            if (!GameController.Instance.isInMainMenu)
+            {
+                ScoreController.Instance.UpdateScore();
+            }
         }
         else
         {
-            GameController.Instance.GameOver();
+            if (GameController.Instance.isInMainMenu)
+            {
+                PlayerController.Instance.CreatePlateInHand(topStackPlate);
+            }
+            else
+            {
+                GameController.Instance.GameOver();
+            }
         }
     }
 

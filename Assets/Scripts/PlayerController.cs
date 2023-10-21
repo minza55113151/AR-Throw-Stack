@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Slider angleSlider;
 
-    public float Angle => angleSlider ? angleSlider.value : 0;
+    public float Angle => angleSlider ? angleSlider.value : 10;
 
     public GameObject PlatePrefab => platePrefab;
 
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     public void CreatePlateInHand(GameObject platePrefab)
     {
+        if (inHandPlate) return;
         
         inHandPlate = Instantiate(PlatePrefab, cam.transform.position + cam.transform.forward * 0.5f, Quaternion.identity, transform);
         inHandPlate.transform.localScale = platePrefab.transform.localScale;

@@ -16,7 +16,8 @@ public class UIMainMenuController : MonoBehaviour
     enum MenuName {
         MainMenu,
         Settings,
-        HowToPlay
+        HowToPlay,
+        WarningPlay
     }
     #endregion
 
@@ -36,6 +37,9 @@ public class UIMainMenuController : MonoBehaviour
     private Button exitButton;
 
     [SerializeField]
+    private Button realPlayButton;
+
+    [SerializeField]
     private List<Menu> menus = new List<Menu>();
 
 
@@ -50,6 +54,7 @@ public class UIMainMenuController : MonoBehaviour
         settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         howToPlayButton.onClick.AddListener(OnHowToPlayButtonClicked);
         exitButton.onClick.AddListener(OnExitButtonClicked);
+        realPlayButton.onClick.AddListener(OnRealPlayButtonClicked);
 
         OpenMenu(MenuName.MainMenu);
     }
@@ -60,12 +65,13 @@ public class UIMainMenuController : MonoBehaviour
         settingsButton.onClick.RemoveAllListeners();
         howToPlayButton.onClick.RemoveAllListeners();
         exitButton.onClick.RemoveAllListeners();
+        realPlayButton.onClick.RemoveAllListeners();
     }
 
     #region OnClicked
     private void OnPlayButtonClicked()
     {
-        GameController.Instance.GoPlayGame();
+        OpenMenu(MenuName.WarningPlay);
     }
 
     private void OnSettingsButtonClicked()
@@ -86,6 +92,11 @@ public class UIMainMenuController : MonoBehaviour
     public void OnBackButtonClicked()
     {
         OpenMenu(MenuName.MainMenu);
+    }
+
+    private void OnRealPlayButtonClicked()
+    {
+        GameController.Instance.GoPlayGame();
     }
     #endregion
 
