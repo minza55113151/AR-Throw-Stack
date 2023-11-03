@@ -3745,8 +3745,8 @@ MonoBehaviour:
   cam: {fileID: 1011907121}
   platePrefab: {fileID: 466892793746604336, guid: bd7666a95dbbaf84ebd01d37f87051ac,
     type: 3}
-  initForce: 100
-  forceGrowByStack: 10
+  initVelolcity: 1
+  velocityGrowByStack: 1
   plateContainerTransform: {fileID: 104129861}
   playerClickButton: {fileID: 1966926075}
   angleSlider: {fileID: 0}

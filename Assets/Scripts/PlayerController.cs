@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour
     private GameObject platePrefab;
 
     [SerializeField]
-    private float initForce;
+    private float initVelolcity;
 
     [SerializeField]
-    private float forceGrowByStack;
+    private float velocityGrowByStack;
 
     [SerializeField]
     private Transform plateContainerTransform;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     public float DistanceToStack => Vector3.Distance(new Vector2(cam.transform.position.x, cam.transform.position.z), new Vector2(StackController.Instance.transform.position.x, StackController.Instance.transform.position.z));
 
-    public float Force => initForce + forceGrowByStack * StackController.Instance.Score;
+    public float Velocity => initVelolcity + velocityGrowByStack * StackController.Instance.Score;
 
     [SerializeField]
     private Slider angleSlider;
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
         // Add force
         var plateRB = inHandPlate.GetComponent<Rigidbody>();
         plateRB.isKinematic = false;
-        plateRB.AddForce(direction * Force);
+        plateRB.velocity = direction * Velocity;
 
         var plateCollider = inHandPlate.GetComponent<Collider>();
         plateCollider.isTrigger = false;

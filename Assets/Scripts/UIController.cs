@@ -36,7 +36,7 @@ public class UIController : MonoBehaviour
     }
     private void UpdateForceText()
     {
-        forceText.text = $"Force: {(int)PlayerController.Instance.Force} N";
+        forceText.text = $"Velocity: {PlayerController.Instance.Velocity.ToString("F1")} m/s";
     }
     private void UpdateScoreText()
     {
