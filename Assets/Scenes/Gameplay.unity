@@ -4912,7 +4912,7 @@ MonoBehaviour:
   platePrefab: {fileID: 466892793746604336, guid: bd7666a95dbbaf84ebd01d37f87051ac,
     type: 3}
   initVelolcity: 1
-  velocityGrowByStack: 0.5
+  velocityGrowByStack: 0.1
   plateContainerTransform: {fileID: 836612612}
   playerClickButton: {fileID: 796850453}
   angleSlider: {fileID: 125311002}
