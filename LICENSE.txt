@@ -1,6 +1,60 @@
+AR-Throw-Stack - Licensing
+==========================
+
+SCOPE OF THIS LICENSE
+
+The MIT License reproduced below applies ONLY to the original work authored
+for this project, namely:
+
+  * the C# source files (*.cs) under Assets/Scripts/
+  * Assets/Materials/
+  * Assets/Scenes/Gameplay.unity and Assets/Scenes/MainMenu.unity
+  * Assets/Prefabs/Plate.prefab and
+    Assets/Prefabs/PlatePhysicMaterial.physicMaterial
+  * ProjectSettings/ and Packages/
+
+Anything not in that list is NOT covered by the MIT License. Files that are
+neither listed above nor listed below are also not covered; this list is a
+grant, not an inventory. In particular the MIT License does not cover:
+
+  * Assets/UnityXRContent/ and
+    ContentPackages/com.unity.xr-content.xr-sim-environments-1.0.0.tgz
+  * Assets/EX/
+  * Assets/Prefabs/ARPlane.prefab, which differs from the AR Foundation
+    sample prefab at Assets/EX/Prefabs/ARPlane.prefab by a single value
+    and is therefore a modified copy of it, not original work
+  * Assets/Buttons/, Assets/FreeButtonSet/, Assets/Pure Poly/
+  * Assets/TextMesh Pro/
+  * Assets/XR/, Assets/Plugins/, Assets/Simulation Environment.prefab,
+    Assets/Prefabs/Free_Forest.prefab, Assets/PhoneOnTheTable.png
+
+Two of those bodies of content are licensed on terms that cannot be replaced
+by the MIT License:
+
+  * XR Simulation Environments (Assets/UnityXRContent/ and the .tgz in
+    ContentPackages/) is copyright (c) 2022 Unity Technologies ApS and is
+    licensed under the Unity Package Distribution License. That license is
+    stated to be non-sublicensable and to permit distribution only as
+    binaries integrated with your own project content.
+  * The AR Foundation sample code and assets in Assets/EX/ are copyright
+    (c) 2020 Unity Technologies ApS and are licensed under the Unity
+    Companion License, whose grant is limited to use in connection with a
+    valid Unity engine license.
+
+The remaining packs are third-party content obtained through the Unity Asset
+Store or a comparable channel and are governed by their own terms, not by
+this file. Nothing in this file grants, sublicenses or transfers any right in
+any of it, and its presence in this repository should not be read as a claim
+that it may be redistributed.
+
+See CREDITS.md for the full list of third-party content, the terms that apply
+to it, and the sources those terms were read from.
+
+-------------------------------------------------------------------------------
+
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2023 Chatuporn Budkaew
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
